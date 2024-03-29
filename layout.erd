@@ -1,0 +1,9 @@
++-------------+            +-------------+            +--------------+
+| Episodes    |            |  Colors     |            | Subject      |
++-------------+            +-------------+            +--------------+
+| EpisodeID   |<>----------| EpisodeID   |<>----------| EpisodeID    |
+| Title       |            | Colors      |            | Subjects     |
+| SeasonNumber|            +-------------+            +--------------+
+| EpisodeNumber
+| Date         /                                   +       
++-------------+                                              
