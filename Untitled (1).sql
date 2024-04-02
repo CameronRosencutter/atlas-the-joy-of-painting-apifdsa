@@ -20,6 +20,14 @@ CREATE TABLE `episodes` (
 
 ALTER USER root@127.0.0.1 IDENTIFIED WITH mysql_native_password BY Cowboys1&;
 
-GRANT ALL PRIVILEGES ON thejoyofpainting.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'Cowboys1&';
+GRANT 'ALL PRIVILEGES' ON 'thejoyofpainting.*'' TO 'root'@'127.0.0.1' IDENTIFIED BY 'Cowboys1&';
 
 GRANT 'ALL PRIVILEGES' ON 'thejoyofpainting' TO 'root'@'127.0.0.1';
+
+ALTER USER 'root'@'127.0.0.1' IDENTIFIED WITH mysql_native_password BY 'new_password';
+
+
+ALTER USER 'root'@'127.0.0.1';
+
+
+SHOW GRANTS FOR 'root'@'127.0.0.1';
