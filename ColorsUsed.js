@@ -1,4 +1,7 @@
 const fs = require('fs');
+const { connection } = require('./db');
+const { pool } = require('./db');
+
 
 // Define the function to parse ColorsUsed data
 function parseColorsUsedData(rawData) {
@@ -53,6 +56,34 @@ fs.readFile('The Joy Of Painiting - Colors Used', 'utf8', (err, data) => {
     // Parse the data
     const parsedData = parseColorsUsedData(data);
 
-    // Do something with the parsed data
-    console.log(parsedData);
+    // Insert the parsed data into the database
+    insertColorsData(parsedData);
 });
+
+// Function to insert parsed data into the database
+function insertColorsData(data) {
+    // Define the SQL query to insert data into the database
+    const sql = 'INSERT INTO CompiledData (painting_index, img_src, painting_title, season, episode, num_colors, youtube_src, colors, color_hex) VALUES ?';
+
+    // Map the parsed data to match the format required for bulk insertion
+    const values = data.map(painting => [
+        painting.painting_index,
+        painting.img_src,
+        painting.painting_title,
+        painting.season,
+        painting.episode,
+        painting.num_colors,
+        painting.youtube_src,
+        painting.colors.join(','),
+        painting.color_hex.join(',')
+    ]);
+
+    // Execute the SQL query
+    connection.query(sql, [values], (error, results, fields) => {
+        if (error) {
+            console.error('Error inserting data:', error);
+            return;
+        }
+        console.log('Data inserted successfully!');
+    });
+}

@@ -1,7 +1,9 @@
 const fs = require('fs');
+const mysql = require('mysql');
+const { connection } = require('./db');
 
-// Define the function to parse Episode data
-function parseEpisodeReleaseData(rawData) {
+// Define the function to parse episode dates data
+function parseEpisodeDatesData(rawData) {
     // Split the raw data into lines
     const lines = rawData.split('\n');
 
@@ -10,13 +12,13 @@ function parseEpisodeReleaseData(rawData) {
 
     // Iterate over each line of the data
     lines.forEach(line => {
-        // Check if the line is empty
+        // Check if the line is empty or does not contain expected format
         if (line.trim() === '') {
             // Skip this line
             return;
         }
 
-        // Extracting the title and date of release
+        // Extracting the title and release date
         const [title, date] = line
             .replace(/"/g, '') // Remove quotes
             .replace(/^\s*|\s*$/g, '') // Remove leading and trailing whitespaces
@@ -41,8 +43,11 @@ fs.readFile('The Joy Of Painting - Episode Dates', 'utf8', (err, data) => {
     }
 
     // Parse the data
-    const parsedData = parseEpisodeReleaseData(data);
+    const parsedData = parseEpisodeDatesData(data);
 
-    // Do something with the parsed data
+    // Output the parsed data
     console.log(parsedData);
+
+    // Insert the parsed data into the database
+    // Call a function to insertDataIntoDatabase(parsedData);
 });
