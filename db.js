@@ -1,28 +1,46 @@
-// db.js
-
 const mysql = require('mysql');
 
-// Create connection pool
-const pool = mysql.createPool({
+// Connection parameters
+const connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'Cowboys1&',
-    database: 'thejoyofpainting'
+    password: 'Cowboys1&', // Change this to your MySQL root password
 });
 
-// Function to execute SQL queries
-function query(sql, params) {
-    return new Promise((resolve, reject) => {
-        pool.query(sql, params, (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
-                resolve(results);
-            }
-        });
+// Connect to MySQL database server
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL database:', err);
+        return;
+    }
+    console.log('Connected to MySQL database server!');
+
+    // Grant necessary permissions to the user
+    grantPermissions();
+});
+
+// Function to grant permissions to the user
+function grantPermissions() {
+    // Grant necessary permissions to your database user
+    // Example: GRANT ALL PRIVILEGES ON thejoyofpainting.* TO 'your_user'@'localhost';
+    const grantQuery = `
+        GRANT ALL PRIVILEGES ON thejoyofpainting.* TO 'root'@'127.0.0.1';
+    `;
+
+    connection.query(grantQuery, (error, results) => {
+        if (error) {
+            console.error('Error granting permissions:', error);
+            return;
+        }
+        console.log('Permissions granted successfully.');
     });
 }
 
-module.exports = {
-    query
-};
+// Close the connection
+connection.end((err) => {
+    if (err) {
+        console.error('Error closing connection:', err);
+        return;
+    }
+    console.log('Connection closed.');
+});
