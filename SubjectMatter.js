@@ -58,7 +58,7 @@ function parseEpisodeData(rawData, fieldsHeader) {
 }
 
 // Read the data from the file
-fs.readFile('The Joy Of Painiting - Subject Matter', 'utf8', (err, data) => {
+fs.readFile('The Joy Of Painting - Subject Matter', 'utf8', (err, data) => {
   if (err) {
     console.error('Error reading file:', err);
     return;
